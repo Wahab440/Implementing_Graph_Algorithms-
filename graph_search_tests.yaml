@@ -1,0 +1,75 @@
+graph:
+  nodes:
+    - S
+    - B_top
+    - B_bottom
+    - C
+    - G
+    - E
+    - F
+
+  edges:
+    S:
+      - [B_top, 2]
+      - [C, 4]
+      - [B_bottom, 4]
+    B_top:
+      - [G, 5]
+      - [C, 5]
+    B_bottom:
+      - [C, 1]
+      - [F, 1]
+    C:
+      - [G, 3]
+    E:
+      - [B_bottom, 4]
+    F: []
+    G: []
+
+tests:
+  - name: DFS_valid_path
+    algorithm: DFS
+    start: S
+    goal: G
+    expected:
+      valid_path: true
+      must_start_with: S
+      must_end_with: G
+      expanded_nodes_min: 1
+
+  - name: BFS_valid_path
+    algorithm: BFS
+    start: S
+    goal: G
+    expected:
+      valid_path: true
+      must_start_with: S
+      must_end_with: G
+      expanded_nodes_min: 1
+
+  - name: Astar_optimal_path
+    algorithm: AStar
+    start: S
+    goal: G
+    expected:
+      path:
+        - S
+        - B_bottom
+        - C
+        - G
+      total_cost: 8
+      optimal: true
+
+  - name: Astar_cost_validation
+    algorithm: AStar
+    start: S
+    goal: G
+    expected:
+      max_cost: 8
+
+  - name: No_path_test
+    algorithm: BFS
+    start: F
+    goal: G
+    expected:
+      path: null
